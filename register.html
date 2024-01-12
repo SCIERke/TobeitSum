@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap framework -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url("https://www.seub.or.th/seubweb/wp-content/uploads/2021/08/cover.jpg");
+            background-size: cover;
+        }
+
+        .register-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2 class="text-center">Register</h2>
+        <!-- เพิ่มฟอร์ม Register ตามตัวอย่างที่ได้ให้ไว้ก่อนหน้านี้ -->
+        <div class="form-group">
+            <label for="register_email">Email:</label>
+            <input type="text" class="form-control" id="email" placeholder="Enter your email">
+        </div>
+        <div class="form-group">
+            <label for="register_password">Password:</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter your password">
+        </div>
+        <button type="button" class="btn btn-success btn-block" id="register">Register</button>
+    </div>
+
+    <script type="module">
+        //แนะนำว่าช่วงนี้อย่าไปยุ่งนะครับแค่ ก็อปไปเลย
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
+        // ส่วนด้านล่างคือตัวอย่างการใช้ libraries นะครับ
+        // https://firebase.google.com/docs/web/setup#available-libraries
+    
+        const firebaseConfig = {
+          apiKey: "AIzaSyDzTMrDk0uBKVHP_K2ntweZbSfBbLYyZQQ",
+          authDomain: "tobe-f2afc.firebaseapp.com",
+          projectId: "tobe-f2afc",
+          storageBucket: "tobe-f2afc.appspot.com",
+          messagingSenderId: "155536749020",
+          appId: "1:155536749020:web:d9285947c53fef43b7df19",
+          measurementId: "G-KLYCLFZXSW"
+        };
+        
+        //การ initilize ต่างๆ 
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        console.log(app);
+
+
+        //ฟังชั่น สร้างแอคเค้า
+        document.getElementById("register").addEventListener("click", function() {
+          //ดึง data จาก id
+          var email =  document.getElementById("email").value;
+          var password = document.getElementById("password").value;
+          
+          //ฟังชั่นการ sign up ครับ
+          createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            
+            //สร้างครับ
+            const user = userCredential.user;
+            console.log(user);
+
+            //ไปหน้าถัดไปครับ
+            window.location.href = 'login.html';
+
+            //แจ้งเตือน user ว่าโอเคแล้ว
+            alert("Registration successfully!!");
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // ..
+            console.log(errorMessage);
+            alert(error);
+          });		  		  
+        });
+    </script>
+</body>
+</html>
